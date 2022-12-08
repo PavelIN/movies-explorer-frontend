@@ -1,0 +1,123 @@
+.card {
+    width: inherit;
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+    font-family: 'Inter';
+    box-shadow: 0px 8px 8px rgba(50, 50, 71, 0.08), 0px 4px 8px rgba(50, 50, 71, 0.06)
+  }
+  
+  
+  .card__image {
+    margin-top :10px;
+    object-fit: cover;
+    background-position: center;
+    width: 100%;
+    height: 201px;
+  }
+  
+  .card__description {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 18px 0;
+  }
+  
+  .card__name {
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 16px;
+    color: #000000;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  
+  .card__duration {
+    display: block;
+    border-radius: 3px;
+    background-color: #F9F9F9;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 10px;
+    color: #A0A0A0;
+    padding: 3px 4px;
+  }
+  
+  .card__button {
+    background-color: #F9F9F9;
+    border: none;
+    border-radius: 30px;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 9px;
+    padding: 6px 7px;
+    cursor: pointer;
+    margin-left: 38%;
+    padding: 20px;
+  }
+  
+  .card:hover .card__button {
+    visibility: visible;
+  }
+  
+  .card__button_saved {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    background-image: url('../../images/save.svg');
+    width: 21px;
+    height: 21px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+  }
+  
+  .card__button_delete {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 21px;
+    height: 21px;
+    background-image: url('../../images/delete.svg');
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    display: block;
+    visibility: hidden;
+  }
+  
+  
+  @media screen and (max-width: 768px) {
+    .card {
+      width: 339px;
+    }
+  
+    .card__image {
+      width: 339px;
+      height: 190px;
+    }
+  
+    .card__description {
+      padding: 25px 0 0;
+    }
+  }
+  
+  @media screen and (max-width: 320px) {
+    .card {
+      width: 300px;
+    }
+  
+    .card__image {
+      width: 300px;
+      height: 168px;
+    }
+  
+    .card__description {
+      padding: 16px 0 0;
+    }
+  
+    .card__name {
+      font-size: 12px;
+      line-height: 15px;
+    }
+  }
