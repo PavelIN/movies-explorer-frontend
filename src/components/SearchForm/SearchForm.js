@@ -4,7 +4,7 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import useForm from '../../hooks/useForm';
 import { useLocation } from 'react-router-dom';
 
-const SearchForm = ({}) => {
+const SearchForm = ({onFilter,isMovieFilter}) => {
     
     function handleSavedMoviesFormSubmit(e) {
         e.preventDefault()
@@ -27,7 +27,7 @@ const SearchForm = ({}) => {
                 Найти
               </button>
             </form>
-            <FilterCheckbox />
+            <FilterCheckbox onFilter={onFilter} isMovieFilter={isMovieFilter}/>
         <div className='search__line' />
       </section>
     )

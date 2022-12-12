@@ -9,7 +9,7 @@
     justify-content: space-between;
 }
 
-.promo_text {
+.promo__text {
     max-width: 626px;
     font-family: 'Inter';
     font-size: 40px;
@@ -26,7 +26,7 @@
 }
 
 @media screen and (max-width: 768px) {
-    .promo_text {
+    .promo__text {
         padding: 200px 0px 130px 0;
         font-size: 40px;
         line-height: 52px;
@@ -47,7 +47,7 @@
 
 
 @media screen and (max-width: 420px) {
-    .promo_text {
+    .promo__text {
         padding: 200px 0px 0px 0px;
         font-size: 40px;
         line-height: 52px;
@@ -61,3 +61,12 @@
     object-fit: cover;
     }
 }
+
+@media screen and (max-width: 255px) {
+    .promo__text {
+        padding: 200px 0px 0px 0px;
+        font-size: 20px;
+        line-height: 30px;
+    }
+    
+    }

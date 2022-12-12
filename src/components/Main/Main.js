@@ -10,17 +10,17 @@ import Footer from '../Footer/Footer.js';
 import AboutMe from '../AboutMe/AboutMe.js';
 import NavTab from '../NavTab/NavTab.js';
 
-const Main = ({ loggedIn }) => {
+const Main = ({ loggedIn}) => {
   return (
-    <div>
-      <Promo loggedIn={loggedIn} />
+    <>
+      <Promo loggedIn={loggedIn}/>
       <NavTab/>
       <AboutProject />
       <Techs />
       <AboutMe />
       <Portfolio />
       <Footer />
-    </div>
+    </>
   );
 };
 

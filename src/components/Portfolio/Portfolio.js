@@ -1,4 +1,5 @@
 import './Portfolio.css';
+import strelka from '../../images/strelka.svg';
 
 const Portfolio = () => {
   return (
@@ -8,20 +9,20 @@ const Portfolio = () => {
         <li>
           <a className='portfolio__link' rel='noreferrer' href='https://github.com/PavelIN/how-to-learn' target='_blank'>
             Статичный сайт
+            <img src={strelka}/>
           </a>
-          <span>↗</span>
         </li>
         <li>
           <a className='portfolio__link' rel='noreferrer' href='https://github.com/PavelIN/russian-travel' target='_blank'>
             Адаптивный сайт
+            <img src={strelka}/>
           </a>
-          <span>↗</span>
         </li>
         <li>
           <a className='portfolio__link' rel='noreferrer' href='https://github.com/PavelIN?tab=repositories' target='_blank'>
             Одностраничное приложение
+            <img src={strelka}/>
           </a>
-          <span>↗</span>
         </li>
       </ul>
     </div>

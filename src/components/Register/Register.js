@@ -4,8 +4,17 @@ import useForm from '../../hooks/useForm';
 
 import './Register.css';
 
-const Register = () => {
+const Register = ({onRegister}) => {
+
+
+
   const { enteredValues, errors, handleChange, isFormValid } = useForm();
+  
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    onRegister(enteredValues);
+  };
+
   return (
     <section className='register__container'>
       <div className='register__header'>
@@ -18,7 +27,7 @@ const Register = () => {
         </Link>
         <h1 className='register__title'>Добро пожаловать!</h1>
       </div>
-      <form className='register__form form'>
+      <form className='register__form form' onSubmit={handleSubmit}>
         <label className='register__label' htmlFor='name'>Имя</label>
         <input
           className='register__input'

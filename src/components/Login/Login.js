@@ -1,63 +1,20 @@
 import { Link } from 'react-router-dom';
 import logo from '../../images/logo.svg';
-import { useEffect, useState } from 'react';
+import useForm from '../../hooks/useForm';
 
 import './Login.css';
 
-const Login = ({ }) => {
+const Login = ({onLogin}) => {
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const { enteredValues, errors, handleChange, isFormValid } = useForm();
 
-  const [emailDirty, setEmailDirty] = useState(false)
-  const [passwordDirty, setPasswordDirty] = useState(false)
-
-  const [emailError, setEmailError] = useState('Емеил не может быть пустым')
-  const [passwordError, setPasswordError] = useState('Пароль не может быть пустым')
-
-  const[FormValid,setFormValid]=useState(false)
-
-  useEffect( () => {
-    if(emailError||passwordError){
-      setFormValid(false)
-    }else{
-      setFormValid(true)
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (!enteredValues.email || !enteredValues.password) {
+      return;
     }
-  },[emailError,passwordError])
-
-const eamailHeandler = (e) =>{
-    setEmail(e.target.value)
-    let regex = new RegExp('[a-z0-9]+@[a-z]+\.[a-z]{2,3}');
-    if(!regex.test(String(e.target.value).toLowerCase())){
-       setEmailError('Некоректный емеил')
-    } else{
-      setEmailError('')
-    }
-}
-
-const passwordHeandler =(e)=>{
-  setPassword(e.target.value)
-  if(e.target.value.length < 6 || e.target.value.length > 30){
-    setPasswordError('Пароль должен быть длинее 6 и меньше 30 символов')
-     if(!e.target.value){
-      setPasswordError('Пароль не может быть пустым')
-     }
-  } else{
-    setPasswordError('')
-  }
-}
-
-  const blur = (e) => {
-    // eslint-disable-next-line default-case
-    switch (e.target.name) {
-      case 'email':
-        setEmailDirty(true)
-        break
-      case 'password':
-        setPasswordDirty(true)
-        break
-    }
-  }
+    onLogin(enteredValues);
+  };
 
   return (
     <div className='login__container'>
@@ -73,30 +30,29 @@ const passwordHeandler =(e)=>{
         <h1 className='login__title'>Рады видеть!</h1>
       </div>
 
-      <form className='login__form form' >
+      <form className='login__form form' onSubmit={handleSubmit}>
         <label className='login__label' htmlFor='email'>E-mail</label>
         <input
           className='login__input'
           type='email'
           id='email'
           name='email'
-          onBlur={e => blur(e)}
-          value={email}
-          onChange = {e=>eamailHeandler(e)}
+          value={enteredValues.email || ''}
+          onChange={handleChange}
+          pattern={'^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'}
         />
-        {(emailDirty && emailError) && <span className='register__error'>{emailError}</span>}
+         <span className='register__error'>{errors.email}</span>
         <label className='login__label' htmlFor='password'>Пароль</label>
         <input
           className='login__input'
           type='password'
           id='password'
           name='password'
-          onBlur={e => blur(e)}
-          value={password}
-          onChange = {e=>passwordHeandler(e)}
+          value={enteredValues.password || ''}
+          onChange={handleChange}
         />
-        {(passwordDirty && passwordError) && <span className='register__error'>{passwordError}</span>}
-        <button disabled={!FormValid} className='login__button' type='submit'>Войти</button>
+        <span className='register__error'>{errors.password}</span>
+        <button disabled={!isFormValid} className='login__button' type='submit'>Войти</button>
       </form>
       <div className='login__bottom'>
         <span>Ещё не зарегистрированы?</span>

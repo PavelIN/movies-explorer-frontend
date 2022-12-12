@@ -1,16 +1,21 @@
 
 import './MoviesCard.css';
-import pic from '../../images/pic.svg';
-const MoviesCard = () => {
+const MoviesCard = ({ title, duration, imgSrc, controls }) => {
+  let mins  = (duration%60)
+  let hours = (duration - mins) / 60;
 
+  let result = (`${hours} ч ${mins} мин`)
+
+
+  
   return (
     <div className='card'>
-        <div className='card__description'>
-            <span className='card__name'>asdasdasdasdasd</span>
-            <span className='card__duration'>asdasdasdasdasd</span>
-        </div>
-        <img className='card__image' src={pic}/>
-        <button className='card__button '>Сохранить</button>
+      <div className='card__description'>
+        <span className='card__name'>{title}</span>
+        <span className='card__duration'>{result}</span>
+      </div>
+      <img className='card__image' src={imgSrc} alt={title} />
+      {controls}
     </div>
   )
 };

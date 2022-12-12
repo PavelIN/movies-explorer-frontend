@@ -12,7 +12,7 @@ const Header = ({loggedIn}) => {
         <Link to='/'>
             <img src={logo} alt="лого" className="header__logo"/>
         </Link>
-        <Navigation loggedIn={loggedIn} />
+        <Navigation loggedIn={loggedIn}/>
       </header>
     );
   };

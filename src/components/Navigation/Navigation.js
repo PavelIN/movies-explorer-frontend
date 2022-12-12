@@ -4,7 +4,7 @@ import icon from '../../images/icon.svg';
 import './Navigation.css';
 import BurgerMenu from '../BurgerMenu/BurgerMenu';
 
-const Navigation = ({ loggedIn }) => {
+const Navigation = ({ loggedIn}) => {
   const [isBurgerMenuOpen, setIsBurgerMenuOpen] = useState(true);
   const location = useLocation().pathname;
 
@@ -42,7 +42,7 @@ const Navigation = ({ loggedIn }) => {
         </>
       ) : (
         <div className='navigation__auth'>
-          <Link to='/signup' className='navigation__link'>Регистрация</Link>
+          <Link to='/signup' className='navigation__header-link'>Регистрация</Link>
           <Link to='/signin'>
             <button className='navigation__button'>
               Войти

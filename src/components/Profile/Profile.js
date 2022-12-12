@@ -4,7 +4,7 @@ import Header from '../Header/Header';
 import useForm from '../../hooks/useForm';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 
-const Profile = ({ onUpdateUser, onSignOut, loggedIn }) => {
+const Profile = ({ onUpdateUser,loggedIn,logout}) => {
     const currentUser = useContext(CurrentUserContext);
     const { enteredValues, handleChange, isFormValid,errors } = useForm();
   
@@ -62,7 +62,7 @@ const Profile = ({ onUpdateUser, onSignOut, loggedIn }) => {
               <button
                 className='profile__logout'
                 type='button'
-                onClick={() => onSignOut()}
+                onClick={logout}
               >
                 Выйти из аккаунта
               </button>

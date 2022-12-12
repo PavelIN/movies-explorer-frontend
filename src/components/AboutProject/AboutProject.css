@@ -60,8 +60,9 @@
   }
   
   .about__backend {
+    color: white;
     display: flex;
-    background-color: #2BE080;
+    background-color: #070707;
     width: 20%;
     align-items: center;
     justify-content: center;

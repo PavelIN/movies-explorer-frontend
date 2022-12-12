@@ -43,6 +43,13 @@
     padding: 3px 4px;
   }
   
+.card__buton_container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 0;
+}
+
   .card__button {
     background-color: #F9F9F9;
     border: none;
@@ -50,10 +57,13 @@
     font-weight: 400;
     font-size: 10px;
     line-height: 9px;
-    padding: 6px 7px;
     cursor: pointer;
-    margin-left: 38%;
-    padding: 20px;
+    padding: 10px 10px;
+    width: 100px;
+  }
+
+  .card__button_none {
+  display: none;
   }
   
   .card:hover .card__button {
@@ -61,30 +71,18 @@
   }
   
   .card__button_saved {
-    position: absolute;
-    top: 14px;
-    right: 14px;
     background-image: url('../../images/save.svg');
-    width: 21px;
-    height: 21px;
     border: none;
-    border-radius: 50px;
+    border-radius: 30px;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 9px;
     cursor: pointer;
+    padding: 14.6px 10px;
+    width: 100px;
   }
   
-  .card__button_delete {
-    position: absolute;
-    top: 14px;
-    right: 14px;
-    width: 21px;
-    height: 21px;
-    background-image: url('../../images/delete.svg');
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    display: block;
-    visibility: hidden;
-  }
+
   
   
   @media screen and (max-width: 768px) {

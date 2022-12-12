@@ -1,6 +1,9 @@
 import './FilterCheckbox.css';
 
 const FilterCheckbox = ({ isMovieFilter, onFilter }) => {
+
+  
+
   return (
     <section className='filter'>
       <input

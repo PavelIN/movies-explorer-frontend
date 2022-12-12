@@ -7,9 +7,9 @@ const Promo = ({loggedIn}) => {
 
     return (
       <>
-      <Header loggedIn={loggedIn} />
+      <Header loggedIn={loggedIn}/>
       <div className="promo">
-        <p className="promo_text">Учебный проект студента факультета Веб-разработки.</p>
+        <p className="promo__text">Учебный проект студента факультета Веб-разработки.</p>
         <img className='promo__logo' src={promo} alt='Логотип Промо.' />
       </div>
       </>
