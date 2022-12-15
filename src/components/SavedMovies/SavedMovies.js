@@ -4,12 +4,13 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import Preloader from '../Preloader/Preloader.js';
 import React, { useEffect, useState,useMemo } from "react";
 
 
 
 
-const SavedMovies = ({ loggedIn, movies, deleteMovie}) => {
+const SavedMovies = ({ loggedIn, movies, deleteMovie,isloading}) => {
 
     const moviesL = useMemo(()=>{
        return !localStorage.getItem('MovieUser') ? movies : JSON.parse(localStorage.getItem('MovieUser'))
@@ -18,7 +19,7 @@ const SavedMovies = ({ loggedIn, movies, deleteMovie}) => {
 
     const [Keyword, setKeyword] = useState(localStorage.getItem('searchValue') ? localStorage.getItem('searchValue') : '');
     const [filteredMovies, setFilteredMovies] = useState(moviesL);
-    
+
   console.log(filteredMovies)
 
     
@@ -66,7 +67,9 @@ const filterMovies =(films)=>{
             <Header loggedIn={loggedIn} />
             <div className='savedMovies__content'>
                 <SearchForm isMovieFilter={isMovieFilter} onFilter={onFilter} Keyword={Keyword} onSeachChange={handleChange} onSubmit={handleSubmit} />
+                {!isloading ? (
                 <MoviesCardList isPersonal={true} movies={filteredMovies} deleteMovie={deleteMovie} isMovieFilter={isMovieFilter} onFilter={onFilter} />
+                ):(<Preloader/>)}
             </div>
             <Footer />
         </section>

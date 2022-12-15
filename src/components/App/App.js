@@ -12,6 +12,7 @@ import Login from '../Login/Login.js';
 import Movies from '../Movies/Movies.js';
 import SavedMovies from '../SavedMovies/SavedMovies.js';
 
+
 import * as movies from '../../utils/MoviesApi.js';
 import * as moviesApi from '../../utils/MainApi.js';
 
@@ -26,6 +27,7 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [movi, setMovi] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
+  const [isloading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const handler = () => {
@@ -75,7 +77,6 @@ const App = () => {
             localStorage.setItem('MovieUser', JSON.stringify(userMovies));
             setCurrentUser(userInfo);
             setSaveMovi(userMovies);
-            console.log(userMovies)
           })
       })
       .catch((err) => {
@@ -101,6 +102,7 @@ const App = () => {
 
 
   const getMoviess = async () => {
+    setIsLoading(true);
     return movies.getMovies()
       .then((movies) => {
         setMovi(movies)
@@ -108,6 +110,9 @@ const App = () => {
       })
       .catch(error => {
         console.log(`Ошибка: ${error}`)
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -143,8 +148,7 @@ const App = () => {
     return moviesApi.deleteMovies(movieId, jwt)
       .then(() => {
         getSavedMuvies()
-      }
-      )
+      })
   }
 
 
@@ -155,7 +159,6 @@ const App = () => {
       .then((userMovies) => {
         setSaveMovi(userMovies);
         localStorage.setItem('MovieUser', JSON.stringify(userMovies));
-
       })
   }
 
@@ -180,10 +183,10 @@ const App = () => {
             <Profile loggedIn={isLoggedIn} logout={logout} onUpdateUser={onUpdateUser} />
           </Route>
           <Route exact path='/movies'>
-            <Movies movies={movi} savedMovies={saveMovi} loggedIn={isLoggedIn} saveMovie={hendleSveMovie} deleteMovie={hendleDeleteMovie} />
+            <Movies isloading={isloading} movies={movi} savedMovies={saveMovi} loggedIn={isLoggedIn} saveMovie={hendleSveMovie} deleteMovie={hendleDeleteMovie} />
           </Route>
           <Route exact path='/saved-movies'>
-            <SavedMovies movies={saveMovi} loggedIn={isLoggedIn} deleteMovie={hendleDeleteMovie} />
+            <SavedMovies isloading={isloading} movies={saveMovi} loggedIn={isLoggedIn} deleteMovie={hendleDeleteMovie} />
           </Route>
           <Route exact path='*'>
             <NotFoundPage />

@@ -7,6 +7,12 @@
     margin-top: 44px;
   }
   
+  .search__error{
+    color: red;
+    padding-left: 30px;
+  }
+
+
   .search__form {
     
     display: flex;
