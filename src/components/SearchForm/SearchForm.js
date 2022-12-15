@@ -1,14 +1,21 @@
-import { useEffect } from 'react';
+import { useEffect,useState } from 'react';
 import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import useForm from '../../hooks/useForm';
 import { useLocation } from 'react-router-dom';
 
-const SearchForm = ({onFilter,isMovieFilter}) => {
-    
-    function handleSavedMoviesFormSubmit(e) {
+
+const SearchForm = ({onFilter,isMovieFilter,Keyword,onSeachChange,onSubmit}) => {
+
+    const handleSavedMoviesFormSubmit=(e)=> {
         e.preventDefault()
+        onSubmit()
       }
+
+    const handleChange =(e)=>{
+      onSeachChange(e.target.value);
+    }
+    
 
     return (
       <section className='search'>
@@ -19,6 +26,8 @@ const SearchForm = ({onFilter,isMovieFilter}) => {
                 className='search__input'
                 required
                 name='searchRequest'
+                value={Keyword}
+                onChange={handleChange}
               />
               <button
                 type='submit'

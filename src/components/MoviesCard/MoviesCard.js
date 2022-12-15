@@ -1,10 +1,10 @@
 
 import './MoviesCard.css';
-const MoviesCard = ({ title, duration, imgSrc, controls }) => {
+const MoviesCard = ({ title, duration, imgSrc, controls}) => {
   let mins  = (duration%60)
   let hours = (duration - mins) / 60;
 
-  let result = (`${hours} ч ${mins} мин`)
+  let result = (`${hours}ч ${mins}м`)
 
 
   

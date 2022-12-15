@@ -4,20 +4,60 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useMemo } from "react";
 
 
 
 
-const SavedMovies  = ({ loggedIn, movies,deleteMovie}) => {
+const SavedMovies = ({ loggedIn, movies, deleteMovie}) => {
 
-const moviesL = !localStorage.getItem('MovieUser') ? movies : JSON.parse(localStorage.getItem('MovieUser'))
+    const moviesL = useMemo(()=>{
+       return !localStorage.getItem('MovieUser') ? movies : JSON.parse(localStorage.getItem('MovieUser'))
+    },[movies])  
 
-const [isMovieFilter, setIsMovieFilter] = useState(false);
-const onFilter=()=>{
-  setIsMovieFilter(!isMovieFilter)
-  localStorage.setItem('savedMoviePer', JSON.stringify(!isMovieFilter));
+
+    const [Keyword, setKeyword] = useState(localStorage.getItem('searchValue') ? localStorage.getItem('searchValue') : '');
+    const [filteredMovies, setFilteredMovies] = useState(moviesL);
+    
+  console.log(filteredMovies)
+
+    
+
+    const handleChange = (value) => {
+        localStorage.setItem('searchValue', value);
+        setKeyword(value);
+    }
+
+const filterMovies =(films)=>{
+    return films.filter(movie => movie.nameRU.toLowerCase().includes(Keyword.toLowerCase()))
 }
+
+    const handleSubmit = () => {
+        const SearchMovies = filterMovies(moviesL)
+        const films = Keyword ? SearchMovies : moviesL
+        setFilteredMovies(films)
+    }
+
+
+    const [isMovieFilter, setIsMovieFilter] = useState(false);
+
+    useEffect(() => {
+        const SearchMovies = filterMovies(moviesL)
+        setFilteredMovies(SearchMovies)
+    }, [moviesL])
+
+    useEffect(() => {
+        const initialFiltterValue = localStorage.getItem('savedMoviePer') === "true" ? true : false
+        const initialSearchValue = localStorage.getItem('searchValue')
+        setIsMovieFilter(initialFiltterValue)
+        setKeyword(initialSearchValue)
+    }, [])
+
+
+    const onFilter = () => {
+        setIsMovieFilter(!isMovieFilter)
+        localStorage.setItem('savedMoviePer', JSON.stringify(!isMovieFilter));
+    }
 
 
 
@@ -25,12 +65,12 @@ const onFilter=()=>{
         <section className='savedMovies__page'>
             <Header loggedIn={loggedIn} />
             <div className='savedMovies__content'>
-            <SearchForm isMovieFilter={isMovieFilter} onFilter={onFilter}/>
-            <MoviesCardList isPersonal={true} movies={moviesL} deleteMovie={deleteMovie} isMovieFilter={isMovieFilter} onFilter={onFilter}/>
+                <SearchForm isMovieFilter={isMovieFilter} onFilter={onFilter} Keyword={Keyword} onSeachChange={handleChange} onSubmit={handleSubmit} />
+                <MoviesCardList isPersonal={true} movies={filteredMovies} deleteMovie={deleteMovie} isMovieFilter={isMovieFilter} onFilter={onFilter} />
             </div>
             <Footer />
         </section>
     );
 };
 
-export default SavedMovies ;
+export default SavedMovies;
