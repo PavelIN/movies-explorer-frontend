@@ -69,7 +69,7 @@ const Movies = ({ loggedIn, movies, saveMovie, savedMovies, deleteMovie, isloadi
             <div className='movies__content'>
                 <SearchForm isMovieFilter={isMovieFilter} onFilter={onFilter} Keyword={Keyword} onSeachChange={handleChange} onSubmit={handleSubmit} />
             {!isloading ? (
-                <MoviesCardList movies={isSubmitted ? filteredMovies : []} isPersonal={false} saveMovie={saveMovie} savedMovies={savedMovies} deleteMovie={deleteMovie} isMovieFilter={isMovieFilter} />
+                <MoviesCardList movies={isSubmitted ? filteredMovies : []} isPersonal={false} saveMovie={saveMovie} savedMovies={savedMovies} deleteMovie={deleteMovie} isMovieFilter={isMovieFilter} films={movies}/>
             ):(<Preloader/>)}
             </div>
             <Footer />

@@ -1,16 +1,17 @@
 import { Link } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import useForm from '../../hooks/useForm';
-
+import React, { useContext, useEffect,useState } from 'react';
 import './Register.css';
 
-const Register = ({onRegister}) => {
+const Register = ({onRegister,error}) => {
 
-
+  const [errorStatus, setErrorStatus] = useState(false);
 
   const { enteredValues, errors, handleChange, isFormValid } = useForm();
   
   const handleSubmit = (event) => {
+    setErrorStatus(true)
     event.preventDefault();
     onRegister(enteredValues);
   };
@@ -64,6 +65,7 @@ const Register = ({onRegister}) => {
           onChange={handleChange}
         />
         <span className='register__error'>{errors.password}</span>
+        {errorStatus ?<span className='register__error-api'>{error}</span>:<span className='register__error-api'></span>}
         <button className='register__button' type='submit' disabled={!isFormValid}>Зарегистрироваться</button>
       </form>
       <div className='register__bottom'>

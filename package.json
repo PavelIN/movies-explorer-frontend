@@ -36,9 +36,9 @@
     ]
   },
   "devDependencies": {
-    "nodemon": "^2.0.20",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0"
+    "@testing-library/user-event": "^13.5.0",
+    "nodemon": "^2.0.20"
   }
 }

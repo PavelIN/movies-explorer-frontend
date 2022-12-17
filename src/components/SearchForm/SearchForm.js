@@ -14,7 +14,6 @@ const SearchForm = ({ onFilter, isMovieFilter, Keyword, onSeachChange, onSubmit 
   const handleSavedMoviesFormSubmit = (e) => {
     e.preventDefault()
     setIsFormValid(e.target.closest('form').checkValidity());
-    console.log(isFormValid)
     if (!isFormValid) {
       return setErrorText('Нужно ввести ключевое слово');
     }

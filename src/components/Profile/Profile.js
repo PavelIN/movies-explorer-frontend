@@ -1,16 +1,19 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect,useState } from 'react';
 import './Profile.css';
 import Header from '../Header/Header';
 import useForm from '../../hooks/useForm';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 
-const Profile = ({ onUpdateUser,loggedIn,logout}) => {
+const Profile = ({ onUpdateUser,loggedIn,logout,error}) => {
     const currentUser = useContext(CurrentUserContext);
     const { enteredValues, handleChange, isFormValid,errors } = useForm();
   
+    
+    const [errorStatus, setErrorStatus] = useState(false);
+
     const handleSubmit = (event) => {
       event.preventDefault();
-  
+      setErrorStatus(true)
       onUpdateUser({
         name: enteredValues.name,
         email: enteredValues.email,
@@ -51,6 +54,7 @@ const Profile = ({ onUpdateUser,loggedIn,logout}) => {
               />
             </div>
             <span className='register__error'>{errors.email}</span>
+            {errorStatus ?<span className='register__error-api'>{error}</span>:<span className='register__error-api'></span>}
             <div className='profile__bottom'>
               <button
                 className='profile__edit'

@@ -51,6 +51,16 @@
     margin-bottom: 4px;
   }
   
+  .register__error-api{
+    height: 12px;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    color: #EE3465;
+    padding-top: 60px;
+
+  }
+
   .register__error {
     height: 12px;
     font-weight: 400;

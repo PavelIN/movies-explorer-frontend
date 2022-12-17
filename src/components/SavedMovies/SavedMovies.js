@@ -20,8 +20,6 @@ const SavedMovies = ({ loggedIn, movies, deleteMovie,isloading}) => {
     const [Keyword, setKeyword] = useState(localStorage.getItem('searchValue') ? localStorage.getItem('searchValue') : '');
     const [filteredMovies, setFilteredMovies] = useState(moviesL);
 
-  console.log(filteredMovies)
-
     
 
     const handleChange = (value) => {
@@ -68,7 +66,7 @@ const filterMovies =(films)=>{
             <div className='savedMovies__content'>
                 <SearchForm isMovieFilter={isMovieFilter} onFilter={onFilter} Keyword={Keyword} onSeachChange={handleChange} onSubmit={handleSubmit} />
                 {!isloading ? (
-                <MoviesCardList isPersonal={true} movies={filteredMovies} deleteMovie={deleteMovie} isMovieFilter={isMovieFilter} onFilter={onFilter} />
+                <MoviesCardList isPersonal={true} movies={filteredMovies} deleteMovie={deleteMovie} isMovieFilter={isMovieFilter} onFilter={onFilter} films={movies}/>
                 ):(<Preloader/>)}
             </div>
             <Footer />

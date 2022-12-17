@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import { Route, Redirect, Switch, useHistory, useLocation } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
@@ -11,10 +11,13 @@ import Register from '../Register/Register.js';
 import Login from '../Login/Login.js';
 import Movies from '../Movies/Movies.js';
 import SavedMovies from '../SavedMovies/SavedMovies.js';
+import Preloader from '../Preloader/Preloader.js';
 
+import ProtectedRoute from '../ProtectedRoute';
 
 import * as movies from '../../utils/MoviesApi.js';
 import * as moviesApi from '../../utils/MainApi.js';
+import * as ApiAuth from '../../utils/ApiAuth.js';
 
 import Profile from '../Profile/Profile.js';
 import NotFoundPage from '../NotFoundPage/NotFoundPage.js';
@@ -28,6 +31,9 @@ const App = () => {
   const [movi, setMovi] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const [isloading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  
 
   useEffect(() => {
     const handler = () => {
@@ -51,14 +57,14 @@ const App = () => {
   //регистрация
 
   const handleRegistration = (data) => {
-    return moviesApi
+    return ApiAuth
       .creatUser(data)
       .then(() => {
         handleAuthorization(data)
         //hist.push('/signin');
       })
       .catch((err) => {
-        console.log(err);
+        setError(err === 'Ошибка: 409' ? 'такой email уже существует' : 'на сервере произошла ошибка')
       });
   }
 
@@ -66,21 +72,21 @@ const App = () => {
   //авторизация 
 
   const handleAuthorization = (data) => {
-    return moviesApi
+    return ApiAuth
       .login(data)
       .then((data) => {
         localStorage.setItem('jwt', data.token);
         setIsLoggedIn(true)
         hist.push('/movies');
-        Promise.all([moviesApi.getUser(data.token), moviesApi.getSaveMovies(data.token)])
+        Promise.all([ApiAuth.getUser(data.token), moviesApi.getSaveMovies(data.token)])
           .then(([userInfo, userMovies]) => {
             localStorage.setItem('MovieUser', JSON.stringify(userMovies));
             setCurrentUser(userInfo);
             setSaveMovi(userMovies);
           })
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        setError(error === 'Ошибка: 401' ? 'неверный email или пароль' : 'на сервере произошла ошибка')
       });
   }
 
@@ -89,7 +95,7 @@ const App = () => {
     if (!jwt) {
       return;
     }
-    moviesApi
+    ApiAuth
       .getUser(jwt)
       .then((data) => {
         setCurrentUser(data);
@@ -135,11 +141,14 @@ const App = () => {
 
   const onUpdateUser = ({ name, email }) => {
     const jwt = localStorage.getItem('jwt');
-    return moviesApi.updateUser({ name, email }, jwt)
+    return ApiAuth.updateUser({ name, email }, jwt)
       .then((data) => {
         setCurrentUser(data)
-      }
-      )
+      })
+      .catch(error => {
+        console.log(error)
+        setError(error === 'Ошибка: 409' ? 'такой email уже существует' : 'на сервере произошла ошибка')
+      })
   }
 
 
@@ -162,7 +171,7 @@ const App = () => {
       })
   }
 
-  
+
 
 
 
@@ -174,20 +183,37 @@ const App = () => {
             <Main loggedIn={isLoggedIn} logout={logout} />
           </Route>
           <Route exact path='/signup'>
-            <Register onRegister={handleRegistration} />
+            <Register onRegister={handleRegistration} error={error} />
           </Route>
           <Route exact path='/signin'>
-            <Login onLogin={handleAuthorization} />
+            <Login onLogin={handleAuthorization} error={error} />
           </Route>
-          <Route exact path='/profile'>
-            <Profile loggedIn={isLoggedIn} logout={logout} onUpdateUser={onUpdateUser} />
-          </Route>
-          <Route exact path='/movies'>
-            <Movies isloading={isloading} movies={movi} savedMovies={saveMovi} loggedIn={isLoggedIn} saveMovie={hendleSveMovie} deleteMovie={hendleDeleteMovie} />
-          </Route>
-          <Route exact path='/saved-movies'>
-            <SavedMovies isloading={isloading} movies={saveMovi} loggedIn={isLoggedIn} deleteMovie={hendleDeleteMovie} />
-          </Route>
+          <ProtectedRoute 
+            component={Profile}
+            path='/profile'
+            loggedIn={isLoggedIn}
+            logout={logout}
+            onUpdateUser={onUpdateUser}
+            error={error}
+          /> 
+          <ProtectedRoute
+            component={Movies}
+            path='/movies'
+            loggedIn={isLoggedIn}
+            isloading={isloading}
+            movies={movi}
+            savedMovies={saveMovi}
+            saveMovie={hendleSveMovie}
+            deleteMovie={hendleDeleteMovie}
+          />
+          <ProtectedRoute
+            component={SavedMovies}
+            path='/saved-movies'
+            loggedIn={isLoggedIn}
+            isloading={isloading}
+            movies={saveMovi}
+            deleteMovie={hendleDeleteMovie}
+          />
           <Route exact path='*'>
             <NotFoundPage />
           </Route>

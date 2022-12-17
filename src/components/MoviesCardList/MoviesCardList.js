@@ -16,7 +16,7 @@ import {
   MOVIES_TO_LOAD_4,
 } from '../../utils/constants.js';
 
-const MoviesCardList = ({ isPersonal, movies, saveMovie, deleteMovie, savedMovies, isMovieFilter }) => {
+const MoviesCardList = ({ isPersonal, movies, saveMovie, deleteMovie, savedMovies, isMovieFilter,films }) => {
 
   const shorMovies = movies.filter(movie => movie.duration < 40)
   const moviesFillter = isMovieFilter ? shorMovies : movies
@@ -24,11 +24,16 @@ const MoviesCardList = ({ isPersonal, movies, saveMovie, deleteMovie, savedMovie
   const [moviesToLoad, setMoviesToLoad] = useState(0);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [displayedMovies, setDisplayedMovies] = useState(0);
+  const [error, setError] = useState('');
   const location = useLocation();
 
   const handleShowMoreMovies = () => {
     setDisplayedMovies((movies) => movies + moviesToLoad);
   };
+
+  useEffect(() => {
+    NotFoundPage()
+  }, [films, moviesFillter]);
 
 
   useEffect(() => {
@@ -94,8 +99,21 @@ const MoviesCardList = ({ isPersonal, movies, saveMovie, deleteMovie, savedMovie
 
    const btnNone = moviesFillter.length > displayedMovies ? true:false
 
+
+   const NotFoundPage =  () => {
+    if(films.length===0) {
+     return  setError(' Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
+    }else if(moviesFillter.length===0){
+     return setError('Ничего не найдено')
+    }
+    return setError('')
+  }
+
+  
+
   return (
     <section className='cards'>
+     <span className='cards__error'>{error}</span> 
        {!isPersonal ? (
         <>
       <ul className='cards__list'>
