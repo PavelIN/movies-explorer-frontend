@@ -17,8 +17,7 @@ import {
   MOVIES_TO_LOAD_4,
 } from '../../utils/constants.js';
 
-const MoviesCardList = ({ isPersonal, movies, saveMovie, deleteMovie, savedMovies, isMovieFilter, films }) => {
-
+const MoviesCardList = ({ isPersonal, movies, saveMovie, deleteMovie, savedMovies, isMovieFilter, films,statusError }) => {
   const shorMovies = movies.filter(movie => movie.duration < 40)
   const moviesFillter = isMovieFilter ? shorMovies : movies
 
@@ -114,7 +113,7 @@ const MoviesCardList = ({ isPersonal, movies, saveMovie, deleteMovie, savedMovie
 
   return (
     <section className='cards'>
-      <span className='cards__error'>{error}</span>
+      {statusError ?<span className='cards__error'>{error}</span>:<span className='cards__error'></span>}
       {!isPersonal ? (
         <>
           <ul className='cards__list'>

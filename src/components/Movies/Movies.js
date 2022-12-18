@@ -16,7 +16,7 @@ const Movies = ({ loggedIn, movies, saveMovie, savedMovies, deleteMovie, isloadi
     const [Keyword, setKeyword] = useState(localStorage.getItem('allSearchValue') ? localStorage.getItem('allSearchValue') : '');
     const [filteredMovies, setFilteredMovies] = useState(moviesL);
     const [isSubmitted, setIssubmitted] = useState(localStorage.getItem('allIsSubmitted') === "true" ? true : !!Keyword);
- 
+    const [statusError, setStatusError] = useState(false);
   
 
     const filterMovies = (films) => {
@@ -24,6 +24,7 @@ const Movies = ({ loggedIn, movies, saveMovie, savedMovies, deleteMovie, isloadi
     }
 
     const handleSubmit = () => {
+        setStatusError(true)
         getMoviess()
         const SearchMovies = filterMovies(moviesL)
         const films = Keyword ? SearchMovies : moviesL
@@ -71,7 +72,7 @@ const Movies = ({ loggedIn, movies, saveMovie, savedMovies, deleteMovie, isloadi
             <div className='movies__content'>
                 <SearchForm isMovieFilter={isMovieFilter} onFilter={onFilter} Keyword={Keyword} onSeachChange={handleChange} onSubmit={handleSubmit} />
             {!isloading ? (
-                <MoviesCardList movies={isSubmitted ? filteredMovies : []} isPersonal={false} saveMovie={saveMovie} savedMovies={savedMovies} deleteMovie={deleteMovie} isMovieFilter={isMovieFilter} films={movies}/>
+                <MoviesCardList movies={isSubmitted ? filteredMovies : []} isPersonal={false} saveMovie={saveMovie} savedMovies={savedMovies} deleteMovie={deleteMovie} isMovieFilter={isMovieFilter} films={movies} statusError={statusError}/>
             ):(<Preloader/>)}
             </div>
             <Footer />
