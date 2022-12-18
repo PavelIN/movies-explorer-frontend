@@ -10,8 +10,8 @@ const VISIBLE_MOVIES_16 = 16;
 const MOVIES_TO_LOAD_2 = 2;
 const MOVIES_TO_LOAD_3 = 3;
 const MOVIES_TO_LOAD_4 = 4;
-//const BUS_URL = 'https://api.oranlon.nomoredomains.club';
-const BUS_URL = 'http://localhost:3000';
+const BUS_URL = 'https://api.oranlon.nomoredomains.club';
+//const BUS_URL = 'http://localhost:3000';
 export {
   BUS_URL,
   BREAKPOINT_1280,
