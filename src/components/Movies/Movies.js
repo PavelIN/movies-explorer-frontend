@@ -8,7 +8,8 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import React, { useEffect, useState } from "react";
 
 
-const Movies = ({ loggedIn, movies, saveMovie, savedMovies, deleteMovie, isloading }) => {
+const Movies = ({ loggedIn, movies, saveMovie, savedMovies, deleteMovie, isloading,getMoviess }) => {
+
 
     const moviesL = !localStorage.getItem('AllMovies') ? movies : JSON.parse(localStorage.getItem('AllMovies'))
 
@@ -16,13 +17,14 @@ const Movies = ({ loggedIn, movies, saveMovie, savedMovies, deleteMovie, isloadi
     const [filteredMovies, setFilteredMovies] = useState(moviesL);
     const [isSubmitted, setIssubmitted] = useState(localStorage.getItem('allIsSubmitted') === "true" ? true : !!Keyword);
  
-
+  
 
     const filterMovies = (films) => {
         return films.filter(movie => movie.nameRU.toLowerCase().includes(Keyword.toLowerCase()))
     }
 
     const handleSubmit = () => {
+        getMoviess()
         const SearchMovies = filterMovies(moviesL)
         const films = Keyword ? SearchMovies : moviesL
         setFilteredMovies(films)

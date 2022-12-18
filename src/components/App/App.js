@@ -11,7 +11,6 @@ import Register from '../Register/Register.js';
 import Login from '../Login/Login.js';
 import Movies from '../Movies/Movies.js';
 import SavedMovies from '../SavedMovies/SavedMovies.js';
-import Preloader from '../Preloader/Preloader.js';
 
 import ProtectedRoute from '../ProtectedRoute';
 
@@ -33,7 +32,6 @@ const App = () => {
   const [isloading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  
 
   useEffect(() => {
     const handler = () => {
@@ -153,6 +151,7 @@ const App = () => {
 
 
   const hendleDeleteMovie = (movieId) => {
+    
     const jwt = localStorage.getItem('jwt');
     return moviesApi.deleteMovies(movieId, jwt)
       .then(() => {
@@ -197,6 +196,7 @@ const App = () => {
             error={error}
           /> 
           <ProtectedRoute
+            getMoviess={getMoviess}
             component={Movies}
             path='/movies'
             loggedIn={isLoggedIn}

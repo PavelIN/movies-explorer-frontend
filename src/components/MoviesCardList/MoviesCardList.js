@@ -151,7 +151,7 @@ const MoviesCardList = ({ isPersonal, movies, saveMovie, deleteMovie, savedMovie
               key={movie._id || movie.id}
               title={movie.nameRU}
               duration={movie.duration}
-              imgSrc={movie.image.url.startsWith("http") ? movie.image.url : `https://api.nomoreparties.co/${movie.image.url}`}
+              imgSrc={movie.image.url?.startsWith("http") ? movie.image.url : `https://api.nomoreparties.co/${movie.image.url}`}
               controls={
                 <div className='card__buton_container' >
                   <button onClick={handleClick(movie, isSaved)} className={!isPersonal && isSaved ? 'card__button_saved ' : 'card__button '}>{getBtnValue(isSaved)}</button>
