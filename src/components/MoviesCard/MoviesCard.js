@@ -1,4 +1,4 @@
-
+import React from 'react';
 import './MoviesCard.css';
 const MoviesCard = ({ title, duration, imgSrc, controls}) => {
   let mins  = (duration%60)

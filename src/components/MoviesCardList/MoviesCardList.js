@@ -1,7 +1,8 @@
-import './MoviesCardList.css';
+import React from 'react';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import './MoviesCardList.css';
 
 import {
   BREAKPOINT_1280,
@@ -16,7 +17,7 @@ import {
   MOVIES_TO_LOAD_4,
 } from '../../utils/constants.js';
 
-const MoviesCardList = ({ isPersonal, movies, saveMovie, deleteMovie, savedMovies, isMovieFilter,films }) => {
+const MoviesCardList = ({ isPersonal, movies, saveMovie, deleteMovie, savedMovies, isMovieFilter, films }) => {
 
   const shorMovies = movies.filter(movie => movie.duration < 40)
   const moviesFillter = isMovieFilter ? shorMovies : movies
@@ -97,71 +98,71 @@ const MoviesCardList = ({ isPersonal, movies, saveMovie, deleteMovie, savedMovie
     return null
   }
 
-   const btnNone = moviesFillter.length > displayedMovies ? true:false
+  const btnNone = moviesFillter.length > displayedMovies ? true : false
 
 
-   const NotFoundPage =  () => {
-    if(films.length===0) {
-     return  setError(' Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
-    }else if(moviesFillter.length===0){
-     return setError('Ничего не найдено')
+  const NotFoundPage = () => {
+    if (films.length === 0) {
+      return setError(' Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
+    } else if (moviesFillter.length === 0) {
+      return setError('Ничего не найдено')
     }
     return setError('')
   }
 
-  
+
 
   return (
     <section className='cards'>
-     <span className='cards__error'>{error}</span> 
-       {!isPersonal ? (
+      <span className='cards__error'>{error}</span>
+      {!isPersonal ? (
         <>
-      <ul className='cards__list'>
-        {
-          moviesFillter.slice(0, displayedMovies).map((movie) => {
-            const isSaved = isPersonal || savedMovies?.some(savedMovie => {
-              return movie.id === savedMovie.movieId
-            })
-            return (
-              <MoviesCard
-                key={movie._id || movie.id}
-                title={movie.nameRU}
-                duration={movie.duration}
-                imgSrc={movie.image.url.startsWith("http") ? movie.image.url : `https://api.nomoreparties.co/${movie.image.url}`}
-                controls={
-                  <div className='card__buton_container' >
-                    <button onClick={handleClick(movie, isSaved)} className={isSaved ? 'card__button_saved ' : 'card__button '}>{getBtnValue(isSaved)}</button>
-                  </div>
-                }
-              />
-            );
-          })}
-      </ul>
-      {btnNone ? <button onClick={handleShowMoreMovies} className="cards__button">Ещё</button>:<button onClick={handleShowMoreMovies} className="card__button_none">Ещё</button>}
-      </>
-      ) :(
-      <ul className='cards__list'>
-      {
-        moviesFillter.map((movie) => {
-          const isSaved = isPersonal || savedMovies?.some(savedMovie => {
-            return movie.id === savedMovie.movieId
-          })
-          return (
-            <MoviesCard
-              key={movie._id || movie.id}
-              title={movie.nameRU}
-              duration={movie.duration}
-              imgSrc={movie.image.url?.startsWith("http") ? movie.image.url : `https://api.nomoreparties.co/${movie.image.url}`}
-              controls={
-                <div className='card__buton_container' >
-                  <button onClick={handleClick(movie, isSaved)} className={!isPersonal && isSaved ? 'card__button_saved ' : 'card__button '}>{getBtnValue(isSaved)}</button>
-                </div>
-              }
-            />
-          );
-        })}
-    </ul>
-     )}
+          <ul className='cards__list'>
+            {
+              moviesFillter.slice(0, displayedMovies).map((movie) => {
+                const isSaved = isPersonal || savedMovies?.some(savedMovie => {
+                  return movie.id === savedMovie.movieId
+                })
+                return (
+                  <MoviesCard
+                    key={movie._id || movie.id}
+                    title={movie.nameRU}
+                    duration={movie.duration}
+                    imgSrc={movie.image.url.startsWith("http") ? movie.image.url : `https://api.nomoreparties.co/${movie.image.url}`}
+                    controls={
+                      <div className='card__buton_container' >
+                        <button onClick={handleClick(movie, isSaved)} className={isSaved ? 'card__button_saved ' : 'card__button '}>{getBtnValue(isSaved)}</button>
+                      </div>
+                    }
+                  />
+                );
+              })}
+          </ul>
+          {btnNone ? <button onClick={handleShowMoreMovies} className="cards__button">Ещё</button> : <button onClick={handleShowMoreMovies} className="card__button_none">Ещё</button>}
+        </>
+      ) : (
+        <ul className='cards__list'>
+          {
+            moviesFillter.map((movie) => {
+              const isSaved = isPersonal || savedMovies?.some(savedMovie => {
+                return movie.id === savedMovie.movieId
+              })
+              return (
+                <MoviesCard
+                  key={movie._id || movie.id}
+                  title={movie.nameRU}
+                  duration={movie.duration}
+                  imgSrc={movie.image.url?.startsWith("http") ? movie.image.url : `https://api.nomoreparties.co/${movie.image.url}`}
+                  controls={
+                    <div className='card__buton_container' >
+                      <button onClick={handleClick(movie, isSaved)} className={!isPersonal && isSaved ? 'card__button_saved ' : 'card__button '}>{getBtnValue(isSaved)}</button>
+                    </div>
+                  }
+                />
+              );
+            })}
+        </ul>
+      )}
     </section>
   )
 };
