@@ -15,10 +15,11 @@ import {
   MOVIES_TO_LOAD_2,
   MOVIES_TO_LOAD_3,
   MOVIES_TO_LOAD_4,
+  SHORT_FILM
 } from '../../utils/constants.js';
 
 const MoviesCardList = ({ isPersonal, movies, saveMovie, deleteMovie, savedMovies, isMovieFilter, films,statusError }) => {
-  const shorMovies = movies.filter(movie => movie.duration < 40)
+  const shorMovies = movies.filter(movie => movie.duration < SHORT_FILM)
   const moviesFillter = isMovieFilter ? shorMovies : movies
 
   const [moviesToLoad, setMoviesToLoad] = useState(0);

@@ -12,8 +12,11 @@ const MOVIES_TO_LOAD_3 = 3;
 const MOVIES_TO_LOAD_4 = 4;
 // const BUS_URL = 'https://api.oranlon.nomoredomains.club';
 const BUS_URL = 'http://localhost:3000';
+
+const SHORT_FILM = 40
 export {
   BUS_URL,
+  SHORT_FILM,
   BREAKPOINT_1280,
   BREAKPOINT_990,
   BREAKPOINT_480,

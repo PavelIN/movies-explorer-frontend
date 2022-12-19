@@ -1,17 +1,13 @@
-import { Route, Redirect} from 'react-router-dom';
-import React, {useMemo } from "react";
+import { Route, Redirect } from 'react-router-dom';
 
 const ProtectedRoute = ({ component: Component, ...props }) => {
-
-  const jwt = localStorage.getItem('jwt')
-
-
   return (
-
-        jwt ? <Component {...props} /> : <Redirect to={'/'} />
-
+    <Route>
+      {() =>
+        props.loggedIn ? <Component {...props} /> : <Redirect to='/' />
+      }
+    </Route>
   );
 };
 
 export default ProtectedRoute;
-

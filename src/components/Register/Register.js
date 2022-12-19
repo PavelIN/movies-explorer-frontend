@@ -4,11 +4,11 @@ import useForm from '../../hooks/useForm';
 import React, { useContext, useEffect,useState } from 'react';
 import './Register.css';
 
-const Register = ({onRegister,error}) => {
+const Register = ({onRegister,error,sumbitStatus}) => {
 
   const [errorStatus, setErrorStatus] = useState(false);
 
-  const { enteredValues, errors, handleChange, isFormValid } = useForm();
+  const { enteredValues, errors, handleChange, isFormValid, } = useForm();
   
   const handleSubmit = (event) => {
     setErrorStatus(true)
@@ -66,7 +66,7 @@ const Register = ({onRegister,error}) => {
         />
         <span className='register__error'>{errors.password}</span>
         {errorStatus ?<span className='register__error-api'>{error}</span>:<span className='register__error-api'></span>}
-        <button className='register__button' type='submit' disabled={!isFormValid}>Зарегистрироваться</button>
+        <button className='register__button' type='submit' disabled={sumbitStatus ? true: !isFormValid}>Зарегистрироваться</button>
       </form>
       <div className='register__bottom'>
         <span>Уже зарегистрированы?</span>
