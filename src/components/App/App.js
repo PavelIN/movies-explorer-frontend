@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import { Route, Switch, useHistory } from "react-router-dom";
+import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
@@ -192,11 +192,20 @@ const App = () => {
           <Route exact path='/'>
             <Main loggedIn={isLoggedIn} logout={logout} />
           </Route>
+
           <Route exact path='/signup'>
+          {!isLoggedIn ? (
             <Register onRegister={handleRegistration} error={error} />
+            ):(  
+              <Redirect to='/' />
+              )}
           </Route>
           <Route exact path='/signin'>
+          {!isLoggedIn ? (
             <Login onLogin={handleAuthorization} error={error} />
+          ):(  
+          <Redirect to='/' />
+          )}
           </Route>
           <ProtectedRoute 
             component={Profile}
