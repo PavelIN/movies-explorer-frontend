@@ -22,7 +22,10 @@
     font-size: 11px;
     line-height: 13px;
   }
-  
+  .register__status-api{
+    color: green;
+  }
+
   .profile__line {
     border-bottom: 1px solid #E8E8E8;
     width: 100%;

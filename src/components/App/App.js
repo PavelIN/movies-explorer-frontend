@@ -32,7 +32,6 @@ const App = () => {
   const [isloading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-
   useEffect(() => {
     const handler = () => {
       localStorage.setItem('allIsSubmitted', false)
@@ -145,11 +144,15 @@ const App = () => {
       )
   }
 
+
+  
+
   const onUpdateUser = ({ name, email }) => {
     const jwt = localStorage.getItem('jwt');
     return ApiAuth.updateUser({ name, email }, jwt)
       .then((data) => {
         setCurrentUser(data)
+        setError('данные успешно изменены')
       })
       .catch(error => {
         console.log(error)
