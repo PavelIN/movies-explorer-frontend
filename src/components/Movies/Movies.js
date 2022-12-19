@@ -8,7 +8,7 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import React, { useEffect, useState } from "react";
 
 
-const Movies = ({ loggedIn, movies, saveMovie, savedMovies, deleteMovie, isloading,getMoviess }) => {
+const Movies = ({ loggedIn, movies, saveMovie, savedMovies, deleteMovie, isloading,getMoviess,getSavedMuvies }) => {
 
 
     const moviesL = !localStorage.getItem('AllMovies') ? movies : JSON.parse(localStorage.getItem('AllMovies'))
@@ -47,6 +47,8 @@ const Movies = ({ loggedIn, movies, saveMovie, savedMovies, deleteMovie, isloadi
         setIsMovieFilter(initalFiltterValue)
         setKeyword(initialSearchValue)
         setFilteredMovies(filterMovies(moviesL))
+        getMoviess()
+        getSavedMuvies()
     }, [])
 
 

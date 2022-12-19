@@ -43,10 +43,8 @@ const App = () => {
     }
   }, [])
 
-  useEffect(() => {
-    getMoviess();
-    getSavedMuvies()
-  }, []);
+
+
 
   useEffect(() => {
     handleTokenCheck();
@@ -225,6 +223,7 @@ const App = () => {
             error={error}
           /> 
           <ProtectedRoute
+            getSavedMuvies={getSavedMuvies}
             getMoviess={getMoviess}
             component={Movies}
             path='/movies'
@@ -236,6 +235,7 @@ const App = () => {
             deleteMovie={handleDeleteMovie}
           />
           <ProtectedRoute
+            getSavedMuvies={getSavedMuvies}
             component={SavedMovies}
             path='/saved-movies'
             loggedIn={isLoggedIn}

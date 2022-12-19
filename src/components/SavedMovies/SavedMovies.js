@@ -10,7 +10,7 @@ import React, { useEffect, useState,useMemo } from "react";
 
 
 
-const SavedMovies = ({ loggedIn, movies, deleteMovie,isloading}) => {
+const SavedMovies = ({ loggedIn, movies, deleteMovie,isloading,getSavedMuvies}) => {
 
     const moviesL = useMemo(()=>{
        return !localStorage.getItem('MovieUser') ? movies : JSON.parse(localStorage.getItem('MovieUser'))
@@ -19,14 +19,14 @@ const SavedMovies = ({ loggedIn, movies, deleteMovie,isloading}) => {
     
 
 
-    const [Keyword, setKeyword] = useState(localStorage.getItem('searchValue') ? localStorage.getItem('searchValue') : '');
+    const [Keyword, setKeyword] = useState('');
     const [filteredMovies, setFilteredMovies] = useState(moviesL);
     const [statusError, setStatusError] = useState(false);
 
     
 
     const handleChange = (value) => {
-        localStorage.setItem('searchValue', value);
+        //localStorage.setItem('searchValue', value);
         setKeyword(value);
     }
 
@@ -52,9 +52,10 @@ const filterMovies =(films)=>{
 
     useEffect(() => {
         const initialFiltterValue = localStorage.getItem('switchSavedMoviePer') === "true" ? true : false
-        const initialSearchValue = localStorage.getItem('searchValue')
+        //const initialSearchValue = localStorage.getItem('searchValue')
         setIsMovieFilter(initialFiltterValue)
-        setKeyword(initialSearchValue)
+        //setKeyword(initialSearchValue)
+        getSavedMuvies()
     }, [])
 
 
