@@ -126,6 +126,7 @@ const MoviesCardList = ({ isPersonal, movies, saveMovie, deleteMovie, savedMovie
                   <MoviesCard
                     key={movie._id || movie.id}
                     title={movie.nameRU}
+                    trailerLink={movie.trailerLink}
                     duration={movie.duration}
                     imgSrc={movie.image.url.startsWith("http") ? movie.image.url : `https://api.nomoreparties.co/${movie.image.url}`}
                     controls={
@@ -149,6 +150,7 @@ const MoviesCardList = ({ isPersonal, movies, saveMovie, deleteMovie, savedMovie
               return (
                 <MoviesCard
                   key={movie._id || movie.id}
+                  trailerLink={movie.trailerLink}
                   title={movie.nameRU}
                   duration={movie.duration}
                   imgSrc={movie.image.url?.startsWith("http") ? movie.image.url : `https://api.nomoreparties.co/${movie.image.url}`}
