@@ -125,6 +125,14 @@ const App = () => {
   const logout = async () => {
     setIsLoggedIn(false);
     localStorage.removeItem('jwt')
+    localStorage.removeItem('allIsSubmitted')
+    localStorage.removeItem('MovieUser')
+    localStorage.removeItem('switchSavedMovies')
+    localStorage.removeItem('switchSavedMoviePer')
+    localStorage.removeItem('searchValue')
+    localStorage.removeItem('allSearchValue')
+    localStorage.removeItem('AllMovies')
+    setError('')
     hist.push('/');
   };
 

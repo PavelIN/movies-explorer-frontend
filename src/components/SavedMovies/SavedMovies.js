@@ -16,6 +16,8 @@ const SavedMovies = ({ loggedIn, movies, deleteMovie,isloading}) => {
        return !localStorage.getItem('MovieUser') ? movies : JSON.parse(localStorage.getItem('MovieUser'))
     },[movies])  
 
+    
+
 
     const [Keyword, setKeyword] = useState(localStorage.getItem('searchValue') ? localStorage.getItem('searchValue') : '');
     const [filteredMovies, setFilteredMovies] = useState(moviesL);
@@ -29,7 +31,7 @@ const SavedMovies = ({ loggedIn, movies, deleteMovie,isloading}) => {
     }
 
 const filterMovies =(films)=>{
-    return films.filter(movie => movie.nameRU.toLowerCase().includes(Keyword.toLowerCase()))
+    return films.filter(movie => movie.nameRU.toLowerCase().includes(Keyword?.toLowerCase()))
 }
 
     const handleSubmit = () => {
@@ -42,13 +44,14 @@ const filterMovies =(films)=>{
 
     const [isMovieFilter, setIsMovieFilter] = useState(false);
 
+
     useEffect(() => {
         const SearchMovies = filterMovies(moviesL)
         setFilteredMovies(SearchMovies)
     }, [moviesL])
 
     useEffect(() => {
-        const initialFiltterValue = localStorage.getItem('savedMoviePer') === "true" ? true : false
+        const initialFiltterValue = localStorage.getItem('switchSavedMoviePer') === "true" ? true : false
         const initialSearchValue = localStorage.getItem('searchValue')
         setIsMovieFilter(initialFiltterValue)
         setKeyword(initialSearchValue)
@@ -57,7 +60,7 @@ const filterMovies =(films)=>{
 
     const onFilter = () => {
         setIsMovieFilter(!isMovieFilter)
-        localStorage.setItem('savedMoviePer', JSON.stringify(!isMovieFilter));
+        localStorage.setItem('switchSavedMoviePer', JSON.stringify(!isMovieFilter));
     }
 
 

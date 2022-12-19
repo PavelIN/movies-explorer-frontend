@@ -42,7 +42,7 @@ const Movies = ({ loggedIn, movies, saveMovie, savedMovies, deleteMovie, isloadi
 
 
     useEffect(() => {
-        const initalFiltterValue = localStorage.getItem('savedMovies') === "true" ? true : false
+        const initalFiltterValue = localStorage.getItem('switchSavedMovies') === "true" ? true : false
         const initialSearchValue = localStorage.getItem('allSearchValue')
         setIsMovieFilter(initalFiltterValue)
         setKeyword(initialSearchValue)
@@ -56,7 +56,7 @@ const Movies = ({ loggedIn, movies, saveMovie, savedMovies, deleteMovie, isloadi
     const onFilter = () => {
         console.log('onFilter')
         setIsMovieFilter((isMovieFilter) => {
-            localStorage.setItem('savedMovies', JSON.stringify(!isMovieFilter));
+            localStorage.setItem('switchSavedMovies', JSON.stringify(!isMovieFilter));
             return !isMovieFilter
         })
     }
