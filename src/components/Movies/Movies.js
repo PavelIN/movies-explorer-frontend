@@ -8,21 +8,24 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import React, { useEffect, useState } from "react";
 
 
-const Movies = ({ loggedIn, movies, saveMovie, savedMovies, deleteMovie, isloading }) => {
+const Movies = ({ loggedIn, movies, saveMovie, savedMovies, deleteMovie, isloading,getMoviess,getSavedMuvies }) => {
+
 
     const moviesL = !localStorage.getItem('AllMovies') ? movies : JSON.parse(localStorage.getItem('AllMovies'))
 
     const [Keyword, setKeyword] = useState(localStorage.getItem('allSearchValue') ? localStorage.getItem('allSearchValue') : '');
     const [filteredMovies, setFilteredMovies] = useState(moviesL);
     const [isSubmitted, setIssubmitted] = useState(localStorage.getItem('allIsSubmitted') === "true" ? true : !!Keyword);
- 
-
+    const [statusError, setStatusError] = useState(false);
+  
 
     const filterMovies = (films) => {
         return films.filter(movie => movie.nameRU.toLowerCase().includes(Keyword.toLowerCase()))
     }
 
     const handleSubmit = () => {
+        setStatusError(true)
+        getMoviess()
         const SearchMovies = filterMovies(moviesL)
         const films = Keyword ? SearchMovies : moviesL
         setFilteredMovies(films)
@@ -39,11 +42,13 @@ const Movies = ({ loggedIn, movies, saveMovie, savedMovies, deleteMovie, isloadi
 
 
     useEffect(() => {
-        const initalFiltterValue = localStorage.getItem('savedMovies') === "true" ? true : false
+        const initalFiltterValue = localStorage.getItem('isShortToggleOn') === "true" ? true : false
         const initialSearchValue = localStorage.getItem('allSearchValue')
         setIsMovieFilter(initalFiltterValue)
         setKeyword(initialSearchValue)
         setFilteredMovies(filterMovies(moviesL))
+        getMoviess()
+        getSavedMuvies()
     }, [])
 
 
@@ -53,7 +58,7 @@ const Movies = ({ loggedIn, movies, saveMovie, savedMovies, deleteMovie, isloadi
     const onFilter = () => {
         console.log('onFilter')
         setIsMovieFilter((isMovieFilter) => {
-            localStorage.setItem('savedMovies', JSON.stringify(!isMovieFilter));
+            localStorage.setItem('isShortToggleOn', JSON.stringify(!isMovieFilter));
             return !isMovieFilter
         })
     }
@@ -69,7 +74,7 @@ const Movies = ({ loggedIn, movies, saveMovie, savedMovies, deleteMovie, isloadi
             <div className='movies__content'>
                 <SearchForm isMovieFilter={isMovieFilter} onFilter={onFilter} Keyword={Keyword} onSeachChange={handleChange} onSubmit={handleSubmit} />
             {!isloading ? (
-                <MoviesCardList movies={isSubmitted ? filteredMovies : []} isPersonal={false} saveMovie={saveMovie} savedMovies={savedMovies} deleteMovie={deleteMovie} isMovieFilter={isMovieFilter} films={movies}/>
+                <MoviesCardList movies={isSubmitted ? filteredMovies : []} isPersonal={false} saveMovie={saveMovie} savedMovies={savedMovies} deleteMovie={deleteMovie} isMovieFilter={isMovieFilter} films={movies} statusError={statusError}/>
             ):(<Preloader/>)}
             </div>
             <Footer />

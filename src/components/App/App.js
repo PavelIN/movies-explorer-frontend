@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import { Route, Switch, useHistory } from "react-router-dom";
+import { Redirect, Route, Switch, useHistory,useNavigate,useLocation } from "react-router-dom";
 
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
@@ -11,7 +11,6 @@ import Register from '../Register/Register.js';
 import Login from '../Login/Login.js';
 import Movies from '../Movies/Movies.js';
 import SavedMovies from '../SavedMovies/SavedMovies.js';
-import Preloader from '../Preloader/Preloader.js';
 
 import ProtectedRoute from '../ProtectedRoute';
 
@@ -32,8 +31,10 @@ const App = () => {
   const [currentUser, setCurrentUser] = useState({});
   const [isloading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [sumbitStatus, setSumbitStatus] = useState(false);
 
-  
+  const location = useLocation();
+  //const navigate = useNavigate();
 
   useEffect(() => {
     const handler = () => {
@@ -45,10 +46,8 @@ const App = () => {
     }
   }, [])
 
-  useEffect(() => {
-    getMoviess();
-    getSavedMuvies()
-  }, []);
+
+
 
   useEffect(() => {
     handleTokenCheck();
@@ -57,6 +56,7 @@ const App = () => {
   //регистрация
 
   const handleRegistration = (data) => {
+    setSumbitStatus(true)
     return ApiAuth
       .creatUser(data)
       .then(() => {
@@ -65,6 +65,9 @@ const App = () => {
       })
       .catch((err) => {
         setError(err === 'Ошибка: 409' ? 'такой email уже существует' : 'на сервере произошла ошибка')
+      })
+      .finally(() => {
+        setSumbitStatus(false);
       });
   }
 
@@ -72,6 +75,7 @@ const App = () => {
   //авторизация 
 
   const handleAuthorization = (data) => {
+    setSumbitStatus(true)
     return ApiAuth
       .login(data)
       .then((data) => {
@@ -87,6 +91,9 @@ const App = () => {
       })
       .catch((error) => {
         setError(error === 'Ошибка: 401' ? 'неверный email или пароль' : 'на сервере произошла ошибка')
+      })
+      .finally(() => {
+        setSumbitStatus(false);
       });
   }
 
@@ -100,6 +107,8 @@ const App = () => {
       .then((data) => {
         setCurrentUser(data);
         setIsLoggedIn(true);
+        hist.push(location.pathname)
+        console.log(location)
       })
       .catch((err) => console.log(err));
   };
@@ -127,10 +136,18 @@ const App = () => {
   const logout = async () => {
     setIsLoggedIn(false);
     localStorage.removeItem('jwt')
+    localStorage.removeItem('allIsSubmitted')
+    localStorage.removeItem('MovieUser')
+    localStorage.removeItem('isShortToggleOn')
+    //localStorage.removeItem('switchSavedMoviePer')
+    localStorage.removeItem('searchValue')
+    localStorage.removeItem('allSearchValue')
+    localStorage.removeItem('AllMovies')
+    setError('')
     hist.push('/');
   };
 
-  const hendleSveMovie = (movie) => {
+  const handleSveMovie = (movie) => {
     const jwt = localStorage.getItem('jwt');
     return moviesApi.addMovie(movie, jwt)
       .then(() => {
@@ -139,11 +156,15 @@ const App = () => {
       )
   }
 
+
+  
+
   const onUpdateUser = ({ name, email }) => {
     const jwt = localStorage.getItem('jwt');
     return ApiAuth.updateUser({ name, email }, jwt)
       .then((data) => {
         setCurrentUser(data)
+        setError('данные успешно изменены')
       })
       .catch(error => {
         console.log(error)
@@ -152,7 +173,8 @@ const App = () => {
   }
 
 
-  const hendleDeleteMovie = (movieId) => {
+  const handleDeleteMovie = (movieId) => {
+    
     const jwt = localStorage.getItem('jwt');
     return moviesApi.deleteMovies(movieId, jwt)
       .then(() => {
@@ -171,7 +193,7 @@ const App = () => {
       })
   }
 
-
+ console.log(isLoggedIn)
 
 
 
@@ -182,11 +204,20 @@ const App = () => {
           <Route exact path='/'>
             <Main loggedIn={isLoggedIn} logout={logout} />
           </Route>
+
           <Route exact path='/signup'>
-            <Register onRegister={handleRegistration} error={error} />
+          {!isLoggedIn ? (
+            <Register onRegister={handleRegistration} error={error} sumbitStatus={sumbitStatus} />
+            ):(  
+              <Redirect to='/' />
+              )}
           </Route>
           <Route exact path='/signin'>
-            <Login onLogin={handleAuthorization} error={error} />
+          {!isLoggedIn ? (
+            <Login onLogin={handleAuthorization} error={error} sumbitStatus={sumbitStatus}/>
+          ):(  
+          <Redirect to='/' />
+          )}
           </Route>
           <ProtectedRoute 
             component={Profile}
@@ -197,22 +228,25 @@ const App = () => {
             error={error}
           /> 
           <ProtectedRoute
+            getSavedMuvies={getSavedMuvies}
+            getMoviess={getMoviess}
             component={Movies}
             path='/movies'
             loggedIn={isLoggedIn}
             isloading={isloading}
             movies={movi}
             savedMovies={saveMovi}
-            saveMovie={hendleSveMovie}
-            deleteMovie={hendleDeleteMovie}
+            saveMovie={handleSveMovie}
+            deleteMovie={handleDeleteMovie}
           />
           <ProtectedRoute
+            getSavedMuvies={getSavedMuvies}
             component={SavedMovies}
             path='/saved-movies'
             loggedIn={isLoggedIn}
             isloading={isloading}
             movies={saveMovi}
-            deleteMovie={hendleDeleteMovie}
+            deleteMovie={handleDeleteMovie}
           />
           <Route exact path='*'>
             <NotFoundPage />

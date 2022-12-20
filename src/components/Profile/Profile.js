@@ -4,9 +4,9 @@ import Header from '../Header/Header';
 import useForm from '../../hooks/useForm';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 
-const Profile = ({ onUpdateUser,loggedIn,logout,error}) => {
+const Profile = ({ onUpdateUser,loggedIn,logout,error,confirmation}) => {
     const currentUser = useContext(CurrentUserContext);
-    const { enteredValues, handleChange, isFormValid,errors } = useForm();
+    const { enteredValues, handleChange, isFormValid,errors,resetForm  } = useForm();
   
     
     const [errorStatus, setErrorStatus] = useState(false);
@@ -19,8 +19,14 @@ const Profile = ({ onUpdateUser,loggedIn,logout,error}) => {
         email: enteredValues.email,
       });
     };
+
+    useEffect(() => {
+      currentUser ? resetForm(currentUser) : resetForm();
+    }, [currentUser, resetForm]);
   
-    const isValueSameAsWas = (!isFormValid);
+
+  
+    const isValueSameAsWas = (!isFormValid || (currentUser.name === enteredValues.name && currentUser.email === enteredValues.email));
   
     return (
       <section>
@@ -54,7 +60,7 @@ const Profile = ({ onUpdateUser,loggedIn,logout,error}) => {
               />
             </div>
             <span className='register__error'>{errors.email}</span>
-            {errorStatus ?<span className='register__error-api'>{error}</span>:<span className='register__error-api'></span>}
+            {errorStatus ?<span className={error==='данные успешно изменены'?'register__status-api':'register__error-api'}>{error}</span>:<span className='register__error-api'></span>}
             <div className='profile__bottom'>
               <button
                 className='profile__edit'

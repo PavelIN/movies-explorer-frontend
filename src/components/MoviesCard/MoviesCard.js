@@ -1,6 +1,6 @@
-
+import React from 'react';
 import './MoviesCard.css';
-const MoviesCard = ({ title, duration, imgSrc, controls}) => {
+const MoviesCard = ({ title, duration, imgSrc, controls,trailerLink}) => {
   let mins  = (duration%60)
   let hours = (duration - mins) / 60;
 
@@ -14,8 +14,11 @@ const MoviesCard = ({ title, duration, imgSrc, controls}) => {
         <span className='card__name'>{title}</span>
         <span className='card__duration'>{result}</span>
       </div>
+      <a href={trailerLink} target="_blank">
       <img className='card__image' src={imgSrc} alt={title} />
+      </a>
       {controls}
+      
     </div>
   )
 };
