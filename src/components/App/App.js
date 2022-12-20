@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import { Redirect, Route, Switch, useHistory } from "react-router-dom";
+import { Redirect, Route, Switch, useHistory,useNavigate,useLocation } from "react-router-dom";
 
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 
@@ -32,6 +32,9 @@ const App = () => {
   const [isloading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [sumbitStatus, setSumbitStatus] = useState(false);
+
+  const location = useLocation();
+  //const navigate = useNavigate();
 
   useEffect(() => {
     const handler = () => {
@@ -104,6 +107,8 @@ const App = () => {
       .then((data) => {
         setCurrentUser(data);
         setIsLoggedIn(true);
+        hist.push(location.pathname)
+        console.log(location)
       })
       .catch((err) => console.log(err));
   };
@@ -133,8 +138,8 @@ const App = () => {
     localStorage.removeItem('jwt')
     localStorage.removeItem('allIsSubmitted')
     localStorage.removeItem('MovieUser')
-    localStorage.removeItem('switchSavedMovies')
-    localStorage.removeItem('switchSavedMoviePer')
+    localStorage.removeItem('isShortToggleOn')
+    //localStorage.removeItem('switchSavedMoviePer')
     localStorage.removeItem('searchValue')
     localStorage.removeItem('allSearchValue')
     localStorage.removeItem('AllMovies')
@@ -188,7 +193,7 @@ const App = () => {
       })
   }
 
-
+ console.log(isLoggedIn)
 
 
 

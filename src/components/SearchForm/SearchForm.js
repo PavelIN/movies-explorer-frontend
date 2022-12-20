@@ -33,7 +33,7 @@ const SearchForm = ({ onFilter, isMovieFilter, Keyword, onSeachChange, onSubmit 
           className='search__input'
           required
           name='searchRequest'
-          value={Keyword}
+          value={Keyword|| ''}
           onChange={handleChange}
         />
         <button
