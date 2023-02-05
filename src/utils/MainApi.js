@@ -1,3 +1,8 @@
+import {
+BUS_URL} from './constants.js';
+
+
+
 export const headers = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
@@ -13,7 +18,7 @@ export const response = (res) => {
 
 
 export const getSaveMovies = (jwt) => {
-  return fetch(`http://localhost:3000/movies`, {
+  return fetch(`${BUS_URL}/movies`, {
     method: 'GET',
     headers: {
       ...headers,
@@ -24,7 +29,7 @@ export const getSaveMovies = (jwt) => {
 
 
 export const deleteMovies = (movieId,jwt) => {
-  return fetch(`http://localhost:3000/movies/${movieId}`, {
+  return fetch(`${BUS_URL}/movies/${movieId}`, {
     method: 'DELETE',
     headers: {
       ...headers,
@@ -37,7 +42,7 @@ export const addMovie = (movie, jwt) => {
 
   console.log(movie);
 
-  return fetch(`http://localhost:3000/movies`, {
+  return fetch(`${BUS_URL}/movies`, {
     method: 'POST',
     headers: {
       ...headers,

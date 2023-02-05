@@ -4,7 +4,8 @@ import useForm from '../../hooks/useForm';
 import React, { useContext, useEffect,useState } from 'react';
 import './Login.css';
 
-const Login = ({onLogin,error}) => {
+const Login = ({onLogin,error,sumbitStatus}) => {
+  console.log(sumbitStatus)
 
   const [errorStatus, setErrorStatus] = useState(false);
 
@@ -56,7 +57,7 @@ const Login = ({onLogin,error}) => {
         />
         <span className='register__error'>{errors.password}</span>
         {errorStatus ?<span className='register__error-api'>{error}</span>:<span className='register__error-api'></span>}
-        <button disabled={!isFormValid} className='login__button' type='submit'>Войти</button>
+        <button disabled={sumbitStatus ? true: !isFormValid } className='login__button' type='submit'>Войти</button>
       </form>
       <div className='login__bottom'>
         <span>Ещё не зарегистрированы?</span>

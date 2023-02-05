@@ -1,3 +1,9 @@
+import {
+  BUS_URL} from './constants.js';
+  
+  
+
+
 export const headers = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
@@ -12,7 +18,7 @@ export const headers = {
   }
 
   export const creatUser = ({ name, password, email }) => {
-    return fetch(`http://localhost:3000/signup`, {
+    return fetch(`${BUS_URL}/signup`, {
       method: 'POST',
       headers,
       body: JSON.stringify({
@@ -26,7 +32,7 @@ export const headers = {
   
   
   export const updateUser = ({ name,  email },jwt) => {
-    return fetch(`http://localhost:3000/users/me`, {
+    return fetch(`${BUS_URL}/users/me`, {
       method: 'PATCH',
       headers: {
         ...headers,
@@ -41,7 +47,7 @@ export const headers = {
   
   
   export const login = ({ email, password }) => {
-    return fetch(`http://localhost:3000/signin`, {
+    return fetch(`${BUS_URL}/signin`, {
       method: 'POST',
       headers,
       body: JSON.stringify({
@@ -53,7 +59,7 @@ export const headers = {
   
   
   export const getUser = (jwt) => {
-    return fetch(`http://localhost:3000/users/me`, {
+    return fetch(`${BUS_URL}/users/me`, {
       method: 'GET',
       headers: {
         ...headers,

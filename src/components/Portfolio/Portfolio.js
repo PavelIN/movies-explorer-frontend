@@ -1,3 +1,4 @@
+import React from 'react';
 import './Portfolio.css';
 import strelka from '../../images/strelka.svg';
 
